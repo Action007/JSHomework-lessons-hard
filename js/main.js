@@ -1,10 +1,9 @@
-try {
-  let form = document.querySelector('#form');
+let money = 300;
+let income = 500;
+let addExpenses = 200;
+let deposit = 100;
+let mission = 1000;
+let period = '1 year';
 
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    console.log('submit');
-  });
-} catch(e) {
-  console.error('form error');
-}
+alert('Hello World');
+console.log('My First Code');
