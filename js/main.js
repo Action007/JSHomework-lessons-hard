@@ -1,5 +1,5 @@
 try {
-  var form = document.querySelector('#form');
+  let form = document.querySelector('#form');
 
   form.addEventListener('submit', e => {
     e.preventDefault();
