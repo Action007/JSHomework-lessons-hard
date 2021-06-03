@@ -22,8 +22,9 @@ console.log('Период равен ' + period + ' месяцев');
 console.log('Цель заработать ' + mission + ' долларов');
 console.log(addExpenses.toLowerCase());
 console.log(addExpenses.split(', '));
-console.log(budgetMonth);
-console.log(final);
+console.log('бюджет на месяц: ' + budgetMonth);
+console.log('бюджет будет достигнуто через' + final + 'месяцев(-a)');
+console.log('бюджет на день: ' + budgetDay);
 
 if (budgetDay >= 1200) {
   console.log('У вас высокий уровень дохода');
