@@ -14,15 +14,11 @@ let budgetMonth = money - (amount1 + amount2);
 let final = Math.ceil(mission / budgetMonth);
 let budgetDay = Math.floor(budgetMonth / 30);
 
-if (budgetDay >= 1200) {
-  console.log('У вас высокий уровень дохода');
-} else if (budgetDay >= 600) {
-  console.log('У вас средний уровень дохода');
-} else if (budgetDay > 0) {
-  console.log('К сожалению у вас уровень дохода ниже среднего');
-} else {
-  console.log('Что то пошло не так');
-}
+// let showThpeOf = function (data) {
+//   console.log(typeof(data));
+// };
+
+// showThpeOf(money);
 
 console.log(typeof money);
 console.log(typeof income);
@@ -35,3 +31,13 @@ console.log(addExpenses.split(', '));
 console.log('бюджет на месяц: ' + budgetMonth);
 console.log('бюджет будет достигнуто через' + final + 'месяцев(-a)');
 console.log('бюджет на день: ' + budgetDay);
+
+if (budgetDay >= 1200) {
+  console.log('У вас высокий уровень дохода');
+} else if (budgetDay >= 600) {
+  console.log('У вас средний уровень дохода');
+} else if (budgetDay > 0) {
+  console.log('К сожалению у вас уровень дохода ниже среднего');
+} else {
+  console.log('Что то пошло не так');
+}
