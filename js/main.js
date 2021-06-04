@@ -1,6 +1,6 @@
 'use strict';
 
-let money = prompt("Ваш месячный доход?");
+let money = parseInt(prompt("Ваш месячный доход?"));
 let income = 'музыка';
 let addExpenses = prompt("Перечислите возможные расходы за рассчитываемый период через запятую");
 let deposit = confirm("Есть ли у вас депозит в банке ?");
@@ -10,15 +10,15 @@ let expenses1 = prompt("Введите обязательную статью р�
 let amount1 = prompt("Во сколько это обойдется?");
 let expenses2 = prompt("Введите обязательную статью расходов?");
 let amount2 = prompt("Во сколько это обойдется?");
-let budgetMonth = money - (amount1 + amount2);
+let budgetMonth = money - (amount1 - amount2);
 let final = Math.ceil(mission / budgetMonth);
 let budgetDay = Math.floor(budgetMonth / 30);
 
-// let showThpeOf = function (data) {
-//   console.log(typeof(data));
-// };
+let showThpeOf = function (data) {
+  console.log(typeof(data));
+};
 
-// showThpeOf(money);
+showThpeOf(money);
 
 console.log(typeof money);
 console.log(typeof income);
@@ -29,7 +29,7 @@ console.log('Цель заработать ' + mission + ' долларов');
 console.log(addExpenses.toLowerCase());
 console.log(addExpenses.split(', '));
 console.log('бюджет на месяц: ' + budgetMonth);
-console.log('бюджет будет достигнуто через' + final + 'месяцев(-a)');
+console.log('бюджет будет достигнуто через ' + final + ' месяцев(-a)');
 console.log('бюджет на день: ' + budgetDay);
 
 if (budgetDay >= 1200) {
