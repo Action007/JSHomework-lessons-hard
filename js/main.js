@@ -1,15 +1,15 @@
 'use strict';
 
-let money = parseInt(prompt("Ваш месячный доход?"));
+let money = +prompt("Ваш месячный доход?");
 let income = 'музыка';
 let addExpenses = prompt("Перечислите возможные расходы за рассчитываемый период через запятую");
 let deposit = confirm("Есть ли у вас депозит в банке ?");
 let mission = 10000;
 let period = '9';
 let expenses1 = prompt("Введите обязательную статью расходов?");
-let amount1 = prompt("Во сколько это обойдется?");
+let amount1 = +prompt("Во сколько это обойдется?");
 let expenses2 = prompt("Введите обязательную статью расходов?");
-let amount2 = prompt("Во сколько это обойдется?");
+let amount2 = +prompt("Во сколько это обойдется?");
 let budgetMonth = money - (amount1 - amount2);
 let final = Math.ceil(mission / budgetMonth);
 let budgetDay = Math.floor(budgetMonth / 30);
