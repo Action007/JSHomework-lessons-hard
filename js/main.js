@@ -33,7 +33,8 @@ let appData = {
     for (let i = 0; i < 2; i++) {
       let expenses = prompt('Введите обязательную статью расходов?"');
       let sum = +prompt('Во сколько это обойдется?');
-      appData.expenses[expenses] = sum[i];
+  
+      appData.expenses[expenses] = sum;
     }
   },
   getExpensesMonth: () => {
@@ -64,7 +65,7 @@ let appData = {
 
 let finalFunc = () => {
   for (let key in appData) {
-    console.log('Наша программа включает в себя данные: ' + key + ': ' + appData[key]);
+    console.log('Наша программа включает в себя данные: ' + key+': '+appData[key]);
   }
 };
 
