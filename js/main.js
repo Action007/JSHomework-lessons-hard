@@ -30,10 +30,12 @@ let appData = {
     appData.addExpenses = prompt("Перечислите возможные расходы за рассчитываемый период через запятую").toLowerCase().split(', ');
     appData.deposit = confirm("Есть ли у вас депозит в банке ?");
 
+    for (let i = 0; i < 2; i++) {
     let expenses = prompt('Введите обязательную статью расходов?"');
     let sum = +prompt('Во сколько это обойдется?');
 
     appData.expenses[expenses] = sum;
+    }
   },
   getExpensesMonth: () => {
     for (let key in appData.expenses) {
@@ -74,4 +76,4 @@ appData.getBudget();
 console.log(appData.expensesMonth);
 console.log(appData.getTargetMonth());
 console.log(appData.getStatusIncome());
-console.log(finalFunc());
+finalFunc();
