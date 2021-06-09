@@ -19,21 +19,22 @@ let appData = {
   addIncome: [],
   expenses: {},
   addExpenses: [],
+  deposit: false,
+  mission: 50000,
+  period: 3,
   budget: money,
   budgetDay: 0,
   budgetMonth: 0,
   expensesMonth: 0,
-  deposit: false,
-  mission: 50000,
-  period: 3,
   asking: () => {
-    appData.addExpenses = prompt("Перечислите возможные расходы за рассчитываемый период через запятую").toLowerCase().split(', ');
+    appData.addExpenses = prompt("Перечислите возможные расходы за рассчитываемый период через запятую")
+      .toLowerCase().split(', ');
     appData.deposit = confirm("Есть ли у вас депозит в банке ?");
 
     for (let i = 0; i < 2; i++) {
-      let expenses = prompt('Введите обязательную статью расходов?"');
+      let expenses = prompt('Введите обязательную статью расходов?');
       let sum = +prompt('Во сколько это обойдется?');
-  
+
       appData.expenses[expenses] = sum;
     }
   },
@@ -44,7 +45,7 @@ let appData = {
   },
   getBudget: () => {
     appData.budgetMonth = appData.budget - appData.expensesMonth;
-    appData.budgetDay = appData.budgetMonth / 30;
+    appData.budgetDay = Math.floor(appData.budgetMonth / 30);
   },
   getTargetMonth: () => {
     return Math.ceil(appData.mission / appData.budgetMonth);
@@ -60,20 +61,18 @@ let appData = {
       return ('Что то пошло не так');
     }
   },
-
-};
-
-let finalFunc = () => {
-  for (let key in appData) {
-    console.log('Наша программа включает в себя данные: ' + key+': '+appData[key]);
-  }
+  finalFunc: () => {
+    for(let key in appData) {
+      console.log('Наша программа включает в себя данные: ' + key + ': ' + appData[key]);
+    }
+  },
 };
 
 appData.asking();
 appData.getExpensesMonth();
 appData.getBudget();
 
-console.log(appData.expensesMonth);
+console.log('расход за месяц: ' + appData.expensesMonth);
 console.log(appData.getTargetMonth());
 console.log(appData.getStatusIncome());
-finalFunc();
+appData.finalFunc();
