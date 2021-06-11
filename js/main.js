@@ -30,9 +30,10 @@ let game = function () {
       alert('Поздравляю, Вы угадали!!!');
       let finalQuess = confirm('Хотели бы сыграть еще?');
       if (finalQuess === true) {
-        myFunc();
+        game();
+      } else {
+        return alert('Прощай!');
       }
-      return;
     } else if (+quess > num) {
       --x;
       if (x === 0) {
@@ -46,7 +47,6 @@ let game = function () {
         alert(`Загаданное число меньше, осталось попыток: ${x}`);
         myFunc();
       }
-      return;
     } else if (+quess < num) {
       --x;
       if (x === 0) {
@@ -60,7 +60,6 @@ let game = function () {
         alert(`Загаданное число больше, осталось попыток: ${x}`);
         myFunc();
       }
-      return;
     }
   };
 
