@@ -6,36 +6,65 @@ let isNumber = function (n) {
 
 let game = function () {
 
-  let num = 77;
+  let num = Math.floor(Math.random() * 100);
+  let x = 10;
   let myFunc = () => {
-    for (let x = 9; x >= 0; x--) {
-      let quess = prompt('Угадай число от 1 до 100');
-      if (quess === null) {
-        return alert('Прощай!');
-      }
-      if (!isNumber(quess)) {
-        alert(`Введи число, загаданное число меньше, осталось попыток: ${x}`);
-      } else if (+quess === num) {
-        alert('Поздравляю, Вы угадали!!!');
-        let finalQuess = confirm('Хотели бы сыграть еще?');
-        if (finalQuess === true) {
-          myFunc();
+    let quess = prompt('Угадай число от 1 до 100');
+    if (quess === null) {
+      return alert('Прощай!');
+    }
+    if (!isNumber(quess)) {
+      --x;
+      if (x === 0) {
+        let lastQuess = confirm('Попытки закончились, хотите сыграть еще ?');
+        if (lastQuess === true) {
+          game();
+        } else {
+          return alert('Прощай!');
         }
-        return;
-      } else if (+quess > num) {
-        alert(`Загаданное число меньше, осталось попыток: ${x}`);
-      } else if (+quess < num) {
-        alert(`Загаданное число больше, осталось попыток: ${x}`);
+      } else {
+        alert(`Введи число, осталось попыток: ${x}`);
+        myFunc();
       }
+    } else if (+quess === num) {
+      alert('Поздравляю, Вы угадали!!!');
+      let finalQuess = confirm('Хотели бы сыграть еще?');
+      if (finalQuess === true) {
+        myFunc();
+      }
+      return;
+    } else if (+quess > num) {
+      --x;
+      if (x === 0) {
+        let lastQuess = confirm('Попытки закончились, хотите сыграть еще ?');
+        if (lastQuess === true) {
+          game();
+        } else {
+          return alert('Прощай!');
+        }
+      } else if (x !== 0) {
+        alert(`Загаданное число меньше, осталось попыток: ${x}`);
+        myFunc();
+      }
+      return;
+    } else if (+quess < num) {
+      --x;
+      if (x === 0) {
+        let lastQuess = confirm('Попытки закончились, хотите сыграть еще ?');
+        if (lastQuess === true) {
+          game();
+        } else {
+          return alert('Прощай!');
+        }
+      } else if (x !== 0) {
+        alert(`Загаданное число больше, осталось попыток: ${x}`);
+        myFunc();
+      }
+      return;
     }
   };
 
   myFunc();
-
-  let lastQuess = confirm('Попытки закончились, хотите сыграть еще ?');
-  if (lastQuess === true) {
-    myFunc();
-  }
 };
 
 game();
