@@ -19,29 +19,25 @@ function dateTime() {
   return day + "." + month + "." + year + " " + hours + ":" + minutes + ":" + seconds;
 }
 
-let lastTime = function (number, titles) {
-  let cases = [2, 0, 1, 1, 1, 2];
-  if (number !== 0) {
-    return titles[
-      (number % 100 > 4 && number % 100 < 20) ?
-      2 :
-      cases[(number % 10 < 5) ? number % 10 : 5]
-    ];
-  } else {
-    return "00 часов";
-  }
-};
+function lastTime(value, words) {
+  value = Math.abs(value) % 100;
+  var num = value % 10;
+  if (value > 10 && value < 20) return value + words[2];
+  if (num > 1 && num < 5) return value + words[1];
+  if (num === 1) return value + words[0];
+  return value + words[2];
+}
 
 function time2() {
   let currentDatetime = new Date();
   let day = currentDatetime.getDate();
   let year = currentDatetime.getFullYear();
-  let hours = lastTime(currentDatetime.getHours(), ['час', 'часа', 'часов']);
-  let minutes = currentDatetime.getMinutes();
-  let seconds = currentDatetime.getSeconds();
+  let hours = lastTime(currentDatetime.getHours(), [' час', ' часа', ' часов']);
+  let minutes = lastTime(currentDatetime.getMinutes(), [' минута ', ' минуты ', ' минут ']);
+  let seconds = lastTime(currentDatetime.getSeconds(), [' секунда', ' секунды', ' секунд']);
 
   return "Сегодня Вторник, " + day + " июня " + year + " года, " + hours + " " +
-    minutes + " минут " + seconds + " секунды";
+    minutes + seconds;
 }
 
 setInterval(function () {
