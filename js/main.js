@@ -61,14 +61,12 @@ window.addEventListener('DOMContentLoaded', function () {
 
   // menu
   const toggleMenu = () => {
-    const body = document.querySelector('body');
-    const btnMenu = document.querySelector('.menu'),
+    const body = document.querySelector('body'),
       menu = document.querySelector('menu');
 
-    let actionMenu = () => {
+    let actionMenu = () => { 
       menu.classList.toggle('active-menu');
     };
-
     body.addEventListener('click', (event) => {
       let target = event.target;
       if (target.classList.contains('close-btn')) {
@@ -77,7 +75,7 @@ window.addEventListener('DOMContentLoaded', function () {
         actionMenu();
       } else if (target.closest('.menu')) {
         actionMenu();
-      } else {
+      } else if (menu.classList.value === 'active-menu') {
         target = target.closest('menu');
         if (!target) {
           actionMenu();
