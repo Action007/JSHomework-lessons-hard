@@ -71,7 +71,7 @@ window.addEventListener('DOMContentLoaded', function () {
       let target = event.target;
       if (target.classList.contains('close-btn')) {
         actionMenu();
-      } else if (target.closest('li')) {
+      } else if (target.closest('menu>ul>li')) {
         actionMenu();
       } else if (target.closest('.menu')) {
         actionMenu();
