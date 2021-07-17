@@ -191,10 +191,11 @@ window.addEventListener('DOMContentLoaded', function () {
         let newDiv = document.createElement('li');
         newDiv.classList = 'dot';
         if (i === 0){
-          newDiv.classList += ' dot-active';
+          newDiv.classList.add('dot-active');
         } 
         dotParrent.append(newDiv);
       }
+      dot = document.querySelectorAll('.dot');
     };
 
     const prevSlide = (elem, index, strClass) => {
@@ -206,7 +207,6 @@ window.addEventListener('DOMContentLoaded', function () {
     };
 
     const autoPlaySlide = () => {
-      dot = document.querySelectorAll('.dot');
       prevSlide(slide, currentSlide, 'portfolio-item-active');
       prevSlide(dot, currentSlide, 'dot-active');
       currentSlide++;
