@@ -190,9 +190,9 @@ window.addEventListener('DOMContentLoaded', function () {
       for (let i = 0; i < slide.length; i++) {
         let newDiv = document.createElement('li');
         newDiv.classList = 'dot';
-        if (i === 0){
+        if (i === 0) {
           newDiv.classList.add('dot-active');
-        } 
+        }
         dotParrent.append(newDiv);
       }
       dot = document.querySelectorAll('.dot');
@@ -275,4 +275,37 @@ window.addEventListener('DOMContentLoaded', function () {
     startSlide(1500);
   };
   slider();
+
+  //lesson23
+  const start = () => {
+    const img = document.querySelectorAll('.command__photo'),
+      calcItem = document.querySelector('.calc-block'),
+      formInput = document.querySelector('.footer-form-input');
+
+    img.forEach(item => {
+      item.addEventListener('mouseenter', (e) => {
+        e.target.src = e.target.dataset.img;
+      });
+      item.addEventListener('mouseleave', (e) => {
+        e.target.src = e.target.dataset.img.replace(/a(?=\.jpg)/, '');
+      });
+    });
+
+    calcItem.addEventListener('input', (e) => {
+      e.target.value = e.target.value.replace(/\D/, '');
+    });
+
+    formInput.addEventListener('input', (e) => {
+      if (e.target.matches('#form2-name')) {
+        e.target.value = e.target.value.replace(/[^а-я\s\-]/i, '');
+      } else if (e.target.matches('#form2-message')) {
+        e.target.value = e.target.value.replace(/[^а-я\s\-]/i, '');
+      } else if (e.target.matches('#form2-email')) {
+        e.target.value = e.target.value.replace(/[^\w\s@-_.!~*'"]/i, '');
+      } else if (e.target.matches('#form2-phone')) {
+        e.target.value = e.target.value.replace(/[^\d-()+]/, '');
+      }
+    });
+  };
+  start();
 });
