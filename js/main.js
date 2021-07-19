@@ -348,4 +348,64 @@ window.addEventListener('DOMContentLoaded', function () {
     form2Message.addEventListener('blur', validateMessage);
   };
   start();
+
+  // calculator
+  const calc = (price = 100) => {
+    const calcBlock = document.querySelector('.calc-block'),
+      calcType = document.querySelector('.calc-type'),
+      calcSquare = document.querySelector('.calc-square'),
+      calcCount = document.querySelector('.calc-count'),
+      calcDay = document.querySelector('.calc-day'),
+      totalValue = document.getElementById('total'),
+      time = 500,
+      step = 1;
+
+    const animateNum = (num) => {
+      let n = 0;
+      let t = Math.round(time / (num / step));
+      let interval = setInterval(() => {
+        n = n + step;
+        if (n <= num) {
+          totalValue.textContent = n;
+        } else {
+          clearInterval(interval);
+        }
+      }, t);
+    };
+
+    const countSum = () => {
+      let total = 0,
+        countValue = 1,
+        dayValue = 1;
+      const typeValue = calcType.options[calcType.selectedIndex].value;
+      let squareValue = +calcSquare.value;
+
+      if (calcCount.value > 1) {
+        countValue += (calcCount.value - 1) / 10;
+      }
+
+      if (calcDay.value && calcDay.value < 5) {
+        dayValue *= 2;
+      } else if (calcDay.value && calcDay.value < 10) {
+        dayValue *= 1.5;
+      }
+
+      if (typeValue && squareValue) {
+        total = price * typeValue * squareValue * countValue * dayValue;
+      }
+
+      totalValue.textContent = total;
+      let num = totalValue.textContent;
+      animateNum(num);
+    };
+
+    calcBlock.addEventListener('change', (e) => {
+      const target = e.target;
+      if (target.matches('select') || target.matches('input')) {
+        countSum();
+      }
+    });
+  };
+
+  calc(100);
 });
