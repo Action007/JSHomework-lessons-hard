@@ -360,19 +360,6 @@ window.addEventListener('DOMContentLoaded', function () {
       time = 500,
       step = 1;
 
-    const animateNum = (num) => {
-      let n = 0;
-      let t = Math.round(time / (num / step));
-      let interval = setInterval(() => {
-        n = n + step;
-        if (n <= num) {
-          totalValue.textContent = n;
-        } else {
-          clearInterval(interval);
-        }
-      }, t);
-    };
-
     const countSum = () => {
       let total = 0,
         countValue = 1,
@@ -394,9 +381,49 @@ window.addEventListener('DOMContentLoaded', function () {
         total = price * typeValue * squareValue * countValue * dayValue;
       }
 
-      totalValue.textContent = total;
-      let num = totalValue.textContent;
-      animateNum(num);
+      function animate({
+        duration,
+        draw,
+        timing
+      }) {
+
+        let start = performance.now();
+
+        requestAnimationFrame(function animate(time) {
+
+          let timeFraction = (time - start) / duration;
+
+          if (timeFraction > 1) {
+            timeFraction = 1;
+          }
+
+          let progress = timing(timeFraction);
+
+          draw(progress);
+
+          if (timeFraction < 1) {
+            requestAnimationFrame(animate);
+          }
+
+        });
+      }
+
+      animate({
+        duration: 2000,
+        timing(timeFraction) {
+          return timeFraction;
+        },
+        draw(progress) {
+          totalValue.textContent = Math.floor(progress * total);
+
+        }
+      });
+
+      animate({
+        duration: 1000,
+        draw: 100,
+        timing: 100
+      });
     };
 
     calcBlock.addEventListener('change', (e) => {
