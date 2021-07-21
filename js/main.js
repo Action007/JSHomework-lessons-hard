@@ -7,8 +7,8 @@ const h1 = document.querySelector('.h1'),
   span = document.querySelector('.span'),
   input = document.querySelector('input');
 
-let data = [];
-data = JSON.parse(localStorage.getItem('data'));
+
+let data = localStorage.getItem('data') ? JSON.parse(localStorage.getItem('data')) : [];
 
 const time = () => {
   let currentDatetime = new Date(),
@@ -21,7 +21,6 @@ const time = () => {
 
 const test = (userName, log, password) => {
   let arrName = userName.split(' ');
-  let i = 0;
   data.push({
     firstName: arrName[0],
     lastName: arrName[1],
@@ -35,14 +34,13 @@ const test = (userName, log, password) => {
   let li = document.createElement('li');
   let logOut = document.createElement('button');
 
-  li.textContent = `Имя: ${data[i].firstName}, Фамилия: ${data[i].lastName},
-  зарегистрирован: ${data[i].regDate}`;
+  li.textContent = `Имя: ${data[0].firstName}, Фамилия: ${data[0].lastName},
+  зарегистрирован: ${data[0].regDate}`;
 
   logOut.textContent = 'X';
   list.append(li);
   li.append(logOut);
-  span.textContent = data[i].firstName;
-  i += 1;
+  span.textContent = data[0].firstName;
 };
 
 const logIn = () => {
