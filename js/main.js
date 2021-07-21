@@ -19,6 +19,68 @@ const time = () => {
   return day + " июля " + year + " г., " + newDate;
 };
 
+const addUser = () => {
+  localStorage.setItem('data', JSON.stringify(data));
+
+  data.forEach((item, index) => {
+    if (index === data.length - 1) {
+      let li = document.createElement('li');
+      let logOut = document.createElement('button');
+
+      li.textContent = `Имя: ${item.firstName}, Фамилия: ${item.lastName},
+      зарегистрирован: ${item.regDate}`;
+      logOut.textContent = 'X';
+      logOut.classList.add('remove');
+
+      list.append(li);
+      li.append(logOut);
+
+      logOut.addEventListener('click', () => {
+        data.splice(index, 1);
+        localStorage.setItem('data', JSON.stringify(data));
+
+        li.remove();
+      });
+    }
+  });
+};
+
+const getUser = () => {
+  data.forEach((item, index) => {
+    let li = document.createElement('li');
+    let logOut = document.createElement('button');
+
+    li.textContent = `Имя: ${item.firstName}, Фамилия: ${item.lastName},
+      зарегистрирован: ${item.regDate}`;
+    logOut.textContent = 'X';
+
+    list.append(li);
+    li.append(logOut);
+
+    logOut.addEventListener('click', () => {
+      data.splice(index, 1);
+      localStorage.setItem('data', JSON.stringify(data));
+
+      li.remove();
+    });
+  });
+};
+
+const logIn = () => {
+  let log = prompt('Введите Логин'),
+    password = prompt('Введите Пароль'),
+    i = 1;
+
+  data.forEach(item => {
+    if (item.login === log && item.password === password) {
+      span.textContent = item.firstName;
+      return --i;
+    }
+  });
+  if (i) alert('Пользователь не найден');
+};
+
+
 const test = (userName, log, password) => {
   let arrName = userName.split(' ');
   data.push({
@@ -29,34 +91,26 @@ const test = (userName, log, password) => {
     regDate: time()
   });
 
-  localStorage.setItem('data', JSON.stringify(data));
 
-  let li = document.createElement('li');
-  let logOut = document.createElement('button');
-
-  li.textContent = `Имя: ${data[0].firstName}, Фамилия: ${data[0].lastName},
-  зарегистрирован: ${data[0].regDate}`;
-
-  logOut.textContent = 'X';
-  list.append(li);
-  li.append(logOut);
-  span.textContent = data[0].firstName;
+  addUser();
 };
 
-const logIn = () => {
+const start = () => {
   let userName = prompt('Введите через пробел имя и фамилию пользователя'),
     log = prompt('Введите Логин'),
     password = prompt('Введите Пароль'),
-    result = userName.match(
-      /^[a-zA-Zа-яА-Я]+ [a-zA-Zа-яА-Я]+$/
-    );
+    result = userName.match(/^[a-zA-Zа-яА-Я]+ [a-zA-Zа-яА-Я]+$/);
 
-  if (result) {
+  if (log.trim() === '' && password.trim() === '') {
+    alert('Введите логин и пароль');
+  } else if (result) {
     test(userName, log, password);
+  } else if (!result) {
+    alert('Введите имя и фамилию');
   }
-  console.log(data);
 };
 
-signUp.addEventListener('click', () => {
-  logIn();
-});
+signUp.addEventListener('click', start);
+login.addEventListener('click', logIn);
+
+getUser();
