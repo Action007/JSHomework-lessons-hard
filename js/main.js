@@ -1,22 +1,39 @@
 'use strict';
 
-let input = document.querySelector('input'),
-  p = document.querySelector('p');
+const start = document.getElementById('start'),
+  reset = document.getElementById('reset'),
+  img = document.getElementById('img');
 
-  console.log(input);
-  console.log(p);
+let animate = 0,
+  count = 0,
+  i = 0;
 
-const setFunc = () => {
-  p.textContent = input.value;
+const startcar = () => {
+  img.style.left = count + 'px';
+  count += 2;
+  i++;
+
+  if (count < (document.documentElement.clientWidth - img.clientWidth)) animate = requestAnimationFrame(startcar);
 };
 
-const timeOut = () => {
-  let time;
-  return () => {
-    clearTimeout(time);
-
-    time = setTimeout(setFunc, 300);
-  };
+const pauseCar = () => {
+  cancelAnimationFrame(animate);
+  i = 0;
 };
 
-input.addEventListener('keyup', timeOut());
+const cancel = () => {
+  cancelAnimationFrame(animate);
+  img.style.left = 0 + 'px';
+  count = 0;
+  i = 0;
+};
+
+start.addEventListener('click', () => {
+  if (!i) {
+    requestAnimationFrame(startcar);
+  } else {
+    pauseCar();
+  }
+});
+
+reset.addEventListener('click', cancel);
