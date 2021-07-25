@@ -172,6 +172,20 @@ window.addEventListener('DOMContentLoaded', function () {
   };
   tabs();
 
+  // Smooth scrolling
+  const scroll = () => {
+    const scrollBtn = document.querySelector('a[href="#service-block"]');
+    const scrollBlock = document.getElementById('service-block');
+    scrollBtn.addEventListener('click', (event) => {
+      event.preventDefault();
+      scrollBlock.scrollIntoView({
+        behavior: "smooth",
+        block: 'start'
+      });
+    });
+  };
+  scroll();
+
   // slider
   const slider = () => {
     const slide = document.querySelectorAll('.portfolio-item'),
