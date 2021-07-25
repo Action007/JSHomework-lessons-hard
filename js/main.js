@@ -11,7 +11,7 @@ let animate = 0,
 const startcar = () => {
   img.style.left = count + 'px';
   count += 2;
-  i++;
+  i = 1;
 
   if (count < (document.documentElement.clientWidth - img.clientWidth)) animate = requestAnimationFrame(startcar);
 };
