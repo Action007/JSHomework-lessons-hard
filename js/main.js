@@ -1,438 +1,86 @@
 window.addEventListener('DOMContentLoaded', function () {
   'use strict';
 
-  // timer
-  const countTimer = (deadline) => {
-    const timerHours = document.getElementById('timer-hours'),
-      timerMinutes = document.getElementById('timer-minutes'),
-      timerSeconds = document.getElementById('timer-seconds'),
-      span = document.querySelectorAll('.span');
+  const exchange = () => {
+    const select1 = document.querySelector('.select1'),
+      select2 = document.querySelector('.select2'),
+      getResult = document.querySelector('.button'),
+      result = document.querySelector('.input2'),
+      form = document.querySelector('form');
 
+    const currency = [];
 
-    const getTimeRemaining = () => {
-      const dateStop = new Date(deadline).getTime(),
-        dateNow = new Date().getTime(),
-        timeRemaining = (dateStop - dateNow) / 1000,
-        seconds = Math.floor(timeRemaining % 60),
-        minutes = Math.floor((timeRemaining / 60) % 60),
-        hours = Math.floor(timeRemaining / 60 / 60);
-      return {
-        timeRemaining,
-        hours,
-        minutes,
-        seconds
-      };
+    const getCurrency = (array) => {
+      const usdEuro = 1 / array.USD,
+        usdRub = array.RUB / array.USD,
+        rubUsd = array.USD / array.RUB,
+        rubEuro = 1 / array.RUB;
+
+      currency.push({
+        EUR: {
+          'USD': array.USD,
+          'RUB': array.RUB
+        }
+      }, {
+        USD: {
+          'EUR': usdEuro,
+          'RUB': usdRub
+        }
+      }, {
+        RUB: {
+          'USD': rubUsd,
+          'EUR': rubEuro
+        }
+      });
     };
 
-    const updateClock = () => {
-      const timer = getTimeRemaining();
-      timerHours.textContent = timer.hours;
-      timerMinutes.textContent = timer.minutes;
-      timerSeconds.textContent = timer.seconds;
-      if (timer.timeRemaining > 0) {
-        if (timerHours.textContent < 10) {
-          timerHours.textContent = '0' + timerHours.textContent;
-        }
-        if (timerMinutes.textContent < 10) {
-          timerMinutes.textContent = '0' + timerMinutes.textContent;
-        }
-        if (timerSeconds.textContent < 10) {
-          timerSeconds.textContent = '0' + timerSeconds.textContent;
-        }
-      } else {
-        clearInterval(SetTimer);
-        timerHours.textContent = '00';
-        timerMinutes.textContent = '00';
-        timerSeconds.textContent = '00';
-        timerHours.style.color = 'red';
-        timerMinutes.style.color = 'red';
-        timerSeconds.style.color = 'red';
-        span.forEach(i => {
-          i.style.color = 'red';
-        });
-      }
+
+    const postData = () => {
+      return fetch('http://data.fixer.io/api/latest?access_key=a168b0fe59c63441b04d86a226da3c87&symbols=USD,RUB');
     };
 
-    const SetTimer = setInterval(updateClock, 1000);
-    updateClock();
-  };
-
-  countTimer('11 july 2021');
-
-  // menu
-  const toggleMenu = () => {
-    const body = document.querySelector('body'),
-      menu = document.querySelector('menu');
-
-    let actionMenu = () => {
-      menu.classList.toggle('active-menu');
-    };
-    body.addEventListener('click', (event) => {
-      let target = event.target;
-      if (target.classList.contains('close-btn')) {
-        actionMenu();
-      } else if (target.closest('menu>ul>li')) {
-        actionMenu();
-      } else if (target.closest('.menu')) {
-        actionMenu();
-      } else if (menu.classList.value === 'active-menu') {
-        target = target.closest('menu');
-        if (!target) {
-          actionMenu();
+    postData()
+      .then(response => {
+        if (response.status !== 200) {
+          throw new Error('status network not 200');
         }
-      }
-    });
-  };
-  toggleMenu();
+        return response.json();
+      })
+      .then(response => {
+        getCurrency(response.rates);
+      })
+      .catch(error => console.log(error));
 
-  // popup
-  const togglePopup = () => {
-    const popup = document.querySelector('.popup'),
-      popupBtn = document.querySelectorAll('.popup-btn');
+    const setResult = () => {
+      const from = select1.options[select1.selectedIndex].value,
+        to = select2.options[select2.selectedIndex].value,
+        input1 = document.querySelector('.input1');
 
-    let fadeIn = (element) => {
-      element.style.display = 'block';
-      if (screen.width > 768) {
-        element.style.opacity = '0';
-        let tick = () => {
-          element.style.opacity = +element.style.opacity + 0.1;
-          if (+element.style.opacity < 1) {
-            setTimeout(tick, 16);
+
+      currency.forEach((item) => {
+
+        for (const key in item) {
+
+          if (key === from) {
+
+            for (const clef in item[key]) {
+              let value = item[key][clef];
+
+              if (clef === to) {
+                let res = input1.value * value;
+                result.value = res.toFixed(2);
+              }
+            }
           }
-        };
-        tick();
-      }
-    };
-
-    let fadeOut = (element) => {
-      let tick = () => {
-        if (+element.style.opacity !== 0) {
-          element.style.opacity = +element.style.opacity - 0.1;
-          setTimeout(tick, 16);
-        } else {
-          element.style.display = 'none';
         }
-      };
-      tick();
-    };
-
-    popupBtn.forEach(item => {
-      item.addEventListener("click", () => {
-        fadeIn(popup);
       });
-    });
+    };
 
-    popup.addEventListener('click', (event) => {
-      let target = event.target;
-
-      if (target.classList.contains('popup-close')) {
-        fadeOut(popup);
-      } else {
-        target = target.closest('.popup-content');
-        if (!target) {
-          fadeOut(popup);
-        }
-      }
+    getResult.addEventListener('click', (e) => {
+      e.preventDefault();
+      setResult();
     });
   };
 
-  togglePopup();
-
-  // tabs
-
-  const tabs = () => {
-    const tabHeader = document.querySelector('.service-header'),
-      tab = tabHeader.querySelectorAll('.service-header-tab'),
-      tabContent = document.querySelectorAll('.service-tab');
-
-    const toggleTab = (index) => {
-      for (let i = 0; i < tabContent.length; i++) {
-        if (index === i) {
-          tab[i].classList.add('active');
-          tabContent[i].classList.remove('d-none');
-        } else {
-          tab[i].classList.remove('active');
-          tabContent[i].classList.add('d-none');
-        }
-      }
-    };
-    tabHeader.addEventListener('click', (event) => {
-      let target = event.target;
-      target = target.closest('.service-header-tab');
-
-      if (target) {
-        tab.forEach((item, index) => {
-          if (item === target) {
-            toggleTab(index);
-          }
-        });
-        return;
-      }
-    });
-  };
-  tabs();
-
-  // slider
-  const slider = () => {
-    const slide = document.querySelectorAll('.portfolio-item'),
-      dotParrent = document.querySelector('.portfolio-dots'),
-      slider = document.querySelector('.portfolio-content');
-    let dot = document.querySelectorAll('.dot');
-
-    let currentSlide = 0,
-      interval;
-
-    const dots = () => {
-      dot.forEach(item => {
-        item.parentNode.removeChild(item);
-      });
-
-      for (let i = 0; i < slide.length; i++) {
-        let newDiv = document.createElement('li');
-        newDiv.classList = 'dot';
-        if (i === 0) {
-          newDiv.classList.add('dot-active');
-        }
-        dotParrent.append(newDiv);
-      }
-      dot = document.querySelectorAll('.dot');
-    };
-
-    const prevSlide = (elem, index, strClass) => {
-      elem[index].classList.remove(strClass);
-    };
-
-    const nextSlide = (elem, index, strClass) => {
-      elem[index].classList.add(strClass);
-    };
-
-    const autoPlaySlide = () => {
-      prevSlide(slide, currentSlide, 'portfolio-item-active');
-      prevSlide(dot, currentSlide, 'dot-active');
-      currentSlide++;
-      if (currentSlide >= slide.length) {
-        currentSlide = 0;
-      }
-      nextSlide(slide, currentSlide, 'portfolio-item-active');
-      nextSlide(dot, currentSlide, 'dot-active');
-    };
-    const startSlide = (time = 1500) => {
-      interval = setInterval(autoPlaySlide, time);
-    };
-    const stopSlide = () => {
-      clearInterval(interval);
-    };
-
-    slider.addEventListener('click', (event) => {
-      event.preventDefault();
-
-      let target = event.target;
-
-      if (!target.matches('.portfolio-btn, .dot')) {
-        return;
-      }
-
-      prevSlide(slide, currentSlide, 'portfolio-item-active');
-      prevSlide(dot, currentSlide, 'dot-active');
-
-      if (target.matches('#arrow-right')) {
-        currentSlide++;
-      } else if (target.matches('#arrow-left')) {
-        currentSlide--;
-      } else if (target.matches('.dot')) {
-        dot.forEach((item, index) => {
-          if (item === target) {
-            currentSlide = index;
-          }
-        });
-      }
-
-      if (currentSlide >= slide.length) {
-        currentSlide = 0;
-      }
-
-      if (currentSlide < 0) {
-        currentSlide = slide.length - 1;
-      }
-      nextSlide(slide, currentSlide, 'portfolio-item-active');
-      nextSlide(dot, currentSlide, 'dot-active');
-    });
-
-    slider.addEventListener('mouseover', (event) => {
-      if (event.target.matches('.portfolio-btn') ||
-        event.target.matches('.dot')) {
-        stopSlide();
-      }
-    });
-    slider.addEventListener('mouseout', (event) => {
-      if (event.target.matches('.portfolio-btn') ||
-        event.target.matches('.dot')) {
-        startSlide();
-      }
-    });
-
-    dots();
-    startSlide(1500);
-  };
-  slider();
-
-  //lesson23
-  const start = () => {
-    const img = document.querySelectorAll('.command__photo'),
-      calcItem = document.querySelector('.calc-block'),
-      form = document.querySelectorAll('form'),
-      calcItems = document.querySelectorAll('input.calc-item'),
-      form1Name = document.getElementById('form1-name'),
-      form2Name = document.getElementById('form2-name'),
-      form3Name = document.getElementById('form3-name'),
-      form1Email = document.getElementById('form1-email'),
-      form2Email = document.getElementById('form2-email'),
-      form3Email = document.getElementById('form3-email'),
-      form1Phone = document.getElementById('form1-phone'),
-      form2Phone = document.getElementById('form2-phone'),
-      form3Phone = document.getElementById('form3-phone'),
-      form2Message = document.getElementById('form2-message');
-
-    img.forEach(item => {
-      item.addEventListener('mouseenter', (e) => {
-        e.target.src = e.target.dataset.img;
-      });
-      item.addEventListener('mouseleave', (e) => {
-        e.target.src = e.target.dataset.img.replace(/a(?=\.jpg)/, '');
-      });
-    });
-
-    const validateName = (e) => {
-      e.target.value = e.target.value
-        .replace(/[^а-яё -]/gi, '')
-        .replace(/^[ -]+/g, '')
-        .replace(/[ -]+$/g, '')
-        .replace(/\s+/g, ' ')
-        .split(' ')
-        .map((word) => {
-          if (word === '') {
-            return word;
-          }
-          return word[0].toUpperCase() + word.slice(1);
-        })
-        .join(' ');
-    };
-
-    const validateEmail = (e) => {
-      e.target.value = e.target.value.replace(/[^\w\s@-_.!~*'"]/ig, '');
-    };
-
-    const validatePhone = (e) => {
-      e.target.value = e.target.value.replace(/[^\d-()+]/g, '');
-    };
-
-    const validateMessage = (e) => {
-      e.target.value = e.target.value.replace(/[^а-я\s\-]/ig, '').trim();
-    };
-
-    // BLUR
-    calcItems.forEach((calcItem) => {
-      calcItem.addEventListener('blur', (e) => {
-        e.target.value = e.target.value.replace(/\D/g, '');
-      });
-    });
-    form1Name.addEventListener('blur', validateName);
-    form2Name.addEventListener('blur', validateName);
-    form3Name.addEventListener('blur', validateName);
-    form1Email.addEventListener('blur', validateEmail);
-    form2Email.addEventListener('blur', validateEmail);
-    form3Email.addEventListener('blur', validateEmail);
-    form1Phone.addEventListener('blur', validatePhone);
-    form2Phone.addEventListener('blur', validatePhone);
-    form3Phone.addEventListener('blur', validatePhone);
-    form2Message.addEventListener('blur', validateMessage);
-  };
-  start();
-
-  // calculator
-  const calc = (price = 100) => {
-    const calcBlock = document.querySelector('.calc-block'),
-      calcType = document.querySelector('.calc-type'),
-      calcSquare = document.querySelector('.calc-square'),
-      calcCount = document.querySelector('.calc-count'),
-      calcDay = document.querySelector('.calc-day'),
-      totalValue = document.getElementById('total'),
-      time = 500,
-      step = 1;
-
-    const countSum = () => {
-      let total = 0,
-        countValue = 1,
-        dayValue = 1;
-      const typeValue = calcType.options[calcType.selectedIndex].value;
-      let squareValue = +calcSquare.value;
-
-      if (calcCount.value > 1) {
-        countValue += (calcCount.value - 1) / 10;
-      }
-
-      if (calcDay.value && calcDay.value < 5) {
-        dayValue *= 2;
-      } else if (calcDay.value && calcDay.value < 10) {
-        dayValue *= 1.5;
-      }
-
-      if (typeValue && squareValue) {
-        total = price * typeValue * squareValue * countValue * dayValue;
-      }
-
-      function animate({
-        duration,
-        draw,
-        timing
-      }) {
-
-        let start = performance.now();
-
-        requestAnimationFrame(function animate(time) {
-
-          let timeFraction = (time - start) / duration;
-
-          if (timeFraction > 1) {
-            timeFraction = 1;
-          }
-
-          let progress = timing(timeFraction);
-
-          draw(progress);
-
-          if (timeFraction < 1) {
-            requestAnimationFrame(animate);
-          }
-
-        });
-      }
-
-      animate({
-        duration: 2000,
-        timing(timeFraction) {
-          return timeFraction;
-        },
-        draw(progress) {
-          totalValue.textContent = Math.floor(progress * total);
-
-        }
-      });
-
-      animate({
-        duration: 1000,
-        draw: 100,
-        timing: 100
-      });
-    };
-
-    calcBlock.addEventListener('change', (e) => {
-      const target = e.target;
-      if (target.matches('select') || target.matches('input')) {
-        countSum();
-      }
-    });
-  };
-
-  calc(100);
+  exchange();
 });
