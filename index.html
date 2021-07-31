@@ -11,35 +11,38 @@
 
 <body>
   <div class="wrapper">
-    <div class="frontpagebox currencyexchange">
-      <form>
-        <div>
-          <span class=inplabel>Сумма:</span>
-          <input class="input1" type=number name=amount min=0>
-        </div>
-        <div>
-          <span class=inplabel>От:</span>
-          <select class="select1" name=from>
-            <option value="USD">Доллар США (USD)</option>
-            <option value="EUR">Евро (EUR)</option>
-            <option value="RUB">Российский Рубль (RUB)</option>
-          </select>
-        </div>
-        <div>
-          <span class=inplabel>к:</span>
-          <select class="select2" name=to>
-            <option value="USD">Доллар США (USD)</option>
-            <option value="EUR">Евро (EUR)</option>
-            <option value="RUB" selected>Российский Рубль (RUB)</option>
-          </select>
-        </div>
-        <div>
-          <span class=inplabel></span>
-          <input class="button" type=submit value="Конвертировать">
-        </div>
-      </form>
-      <span class="span">Результат</span>
-      <input class="input2" type="text" disabled>
+    <div class="title-wrap">
+      <h2 class="title">Конвертор валют</h2>
+      <div class="frontpagebox currencyexchange">
+        <form>
+          <div>
+            <span class=inplabel>Сумма:</span>
+            <input class="input1" type=number name=amount min=0>
+          </div>
+          <div>
+            <span class=inplabel>От:</span>
+            <select class="select1" name=from>
+              <option value="USD">Доллар США (USD)</option>
+              <option value="EUR">Евро (EUR)</option>
+              <option value="RUB">Российский Рубль (RUB)</option>
+            </select>
+          </div>
+          <div>
+            <span class=inplabel>к:</span>
+            <select class="select2" name=to>
+              <option value="USD">Доллар США (USD)</option>
+              <option value="EUR">Евро (EUR)</option>
+              <option value="RUB" selected>Российский Рубль (RUB)</option>
+            </select>
+          </div>
+          <div>
+            <span class=inplabel></span>
+            <input class="button" type=submit value="Конвертировать">
+          </div>
+        </form>
+        <span class="span">Результат</span>
+        <input class="input2" type="text" disabled>
+      </div>
     </div>
   </div>
 
