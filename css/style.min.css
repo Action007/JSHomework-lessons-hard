@@ -13,7 +13,7 @@ body {
 .frontpagebox.currencyexchange input {
   max-width: 220px;
   width: 100%;
-  height: 40px;
+  height: 34px;
   margin: 0 0 1.5em 0;
   display: inline-block;
 }
@@ -32,8 +32,9 @@ body {
 }
 
 .frontpagebox .inplabel {
-  width: 60px;
   display: inline-block;
+  width: 60px;
+  margin-bottom: 5px;
 }
 
 .wrapper {
