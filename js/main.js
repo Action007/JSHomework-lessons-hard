@@ -18,16 +18,19 @@ window.addEventListener('DOMContentLoaded', function () {
 
       currency.push({
         EUR: {
+          'EUR': 1,
           'USD': array.USD,
           'RUB': array.RUB
         }
       }, {
         USD: {
+          'USD': 1,
           'EUR': usdEuro,
           'RUB': usdRub
         }
       }, {
         RUB: {
+          'RUB': 1,
           'USD': rubUsd,
           'EUR': rubEuro
         }
