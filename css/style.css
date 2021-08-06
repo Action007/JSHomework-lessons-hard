@@ -1,0 +1,256 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.main {
+  flex-grow: 1;
+  width: 100%;
+}
+
+.header {
+  background-color: #202020;
+  min-height: 480px;
+}
+
+.header__wrap,
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  background-color: #202020;
+}
+
+.logo {
+  background-color: #fff;
+  max-width: 150px;
+  width: 100%;
+  height: 55px;
+}
+
+.header__img img {
+  width: 100%;
+  height: 100%;
+}
+
+.header__image {
+  z-index: 0;
+}
+
+.header__wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 400px;
+  width: 100%;
+  padding: 0 15px;
+}
+
+.header__wrapper::after {
+  position: absolute;
+  content: "";
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: hsla(0, 0%, 0%, 0.5);
+}
+
+.header__wrapper::before {
+  position: absolute;
+  content: "";
+  background-image: url("../images/2.jpg");
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.header__text {
+  position: relative;
+  font-size: 44px;
+  color: white;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  z-index: 2;
+}
+
+.blog {
+  padding: 50px 0;
+  background-color: #700c13;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+}
+
+.blog__inner {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.blog__select {
+  margin: 0 0 30px 10px;
+}
+
+.card {
+  max-width: 390px;
+  width: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  margin-bottom: 20px;
+}
+
+.card__front,
+.card__back {
+  max-width: 390px;
+  width: 100%;
+  min-height: 490px;
+  height: auto;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+}
+
+.card__front {
+  transform: rotateY(0deg);
+}
+
+.card__back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: rotateY(180deg);
+}
+
+.card__back::after {
+  content: "";
+  max-width: 370px;
+  width: 100%;
+  height: 100%;
+  background-color: #0a0a0a;
+  border-radius: 0 30px 0 30px;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  opacity: 0.6;
+}
+
+.card__inner {
+  padding: 0 10px;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%) translateZ(60px) scale(0.94);
+  z-index: 2;
+  text-align: center;
+  color: #fff;
+}
+
+.card__img {
+  border-radius: 0 30px 0 30px;
+  max-height: 430px;
+  margin: 0 auto;
+  max-width: 370px;
+  width: 100%;
+  min-height: 490px;
+  object-fit: cover;
+}
+
+.card:hover .card__front {
+  transform: rotateY(-180deg);
+}
+
+.card:hover .card__back {
+  transform: rotateY(0deg);
+}
+
+.card__title {
+  margin-bottom: 20px;
+  font-size: 35px;
+  font-weight: 700;
+  line-height: 40px;
+  text-transform: capitalize;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+}
+
+.card__items {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  padding: 0 10px;
+}
+
+.card__span {
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.card__item:not(:last-child) {
+  margin-bottom: 13px;
+}
+
+.blog__select {
+  max-width: 350px;
+  width: 100%;
+  border-radius: 10px;
+  min-height: 40px;
+  padding: 10px;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 400;
+  background-color: #520000;
+  color: #fff;
+  border: none;
+  outline: transparent;
+  font-size: 18px;
+}
+
+.blog__filter {
+  display: block;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 400;
+  color: #fff;
+  margin-bottom: 10px;
+  font-size: 20px;
+  margin-left: 20px;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  border: 7px solid #520000;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(24, 0, 0);
+  border-radius: 10px;
+}
+
+select::-webkit-scrollbar-track {
+  border-radius: 10px;
+}

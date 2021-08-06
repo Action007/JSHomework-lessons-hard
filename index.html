@@ -2,25 +2,48 @@
 <html lang="en">
 
 <head>
-
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hello World</title>
-  <link rel="stylesheet" href="css/css.css">
+  <title>Document</title>
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body class="body">
-  <div class="wrapper">
-    <h1 class="h1">Привет <span class="span">Аноним</span></h1>
-    <button class="sign-up">Зарегистрировать пользователя</button>
-    <button class="login">Авторизоваться</button>
-    <ul class="list">
+<body>
+  <header class="header">
+    <div class="header__wrap">
+      <div class="logo">
+        <img src="images/marvel-logo.png" alt="marvel logo">
+      </div>
+    </div>
+    <div class="header__wrapper">
+      <div class="header__text">
+        Marvel Characters
+      </div>
+    </div>
+  </header>
 
-    </ul>
-  </div>
+  <main class="main">
+    <section class="blog">
+      <div class="container">
+        <span class="blog__filter">Выберите фильм:</span>
+        <select class="blog__select">
+          <option class="blog__option" value="0">
+            Все персонажи
+          </option>
+        </select>
+        <div class="blog__inner">
+        </div>
+      </div>
+    </section>
+  </main>
 
-  <script src="js/main.js"></script>
+  <footer class="footer">
+    <div class="logo">
+      <img src="images/marvel-logo.png" alt="marvel logo">
+    </div>
+  </footer>
+
+  <script src="js/index.js"></script>
 </body>
-
-</html>
