@@ -228,16 +228,6 @@ body {
   font-size: 18px;
 }
 
-.blog__filter {
-  display: block;
-  font-family: "Space Grotesk", sans-serif;
-  font-weight: 400;
-  color: #fff;
-  margin-bottom: 10px;
-  font-size: 20px;
-  margin-left: 20px;
-}
-
 ::-webkit-scrollbar {
   width: 12px;
 }

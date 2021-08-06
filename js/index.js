@@ -1,6 +1,6 @@
 'use strict';
 
-const select = document.querySelector('.blog__select');
+const select1 = document.querySelector('.blog__select');
 const blogInner = document.querySelector('.blog__inner');
 
 const addCard = (item) => {
@@ -52,30 +52,57 @@ const addCard = (item) => {
       `);
 };
 
-const filter = (arr) => {
-  const blogSelect = document.querySelector('.blog__select');
+const filter = (arr, select) => {
+  while (blogInner.firstChild) {
+    blogInner.firstChild.remove();
+  }
 
-  const selectFilter = () => {
-    while (blogInner.firstChild) {
-      blogInner.firstChild.remove();
-    }
-
-    arr.forEach(item => {
+  arr.forEach(item => {
+    if (select === 'movies') {
       if (item.movies) {
         item.movies.forEach(elem => {
-          if (elem === event.target.options[select.selectedIndex].value) {
+          if (elem === event.target.options[event.target.selectedIndex].value) {
             addCard(item);
           }
         });
       }
-    });
-
-    if (event.target.options[select.selectedIndex].value === '0') {
-      arr.forEach(item => {
-        if (item.movies) {
+    } else if (select === 'status') {
+      if (item.status === event.target.options[event.target.selectedIndex].value) {
+        addCard(item);
+      }
+    } else if (select === 'gender') {
+      if (item.gender) {
+        if (item.gender.toLowerCase() === event.target.options[event.target.selectedIndex].value) {
           addCard(item);
         }
-      });
+      }
+    }
+  });
+
+  if (event.target.options[event.target.selectedIndex].value === '0') {
+    arr.forEach(item => {
+      if (item.movies) {
+        addCard(item);
+      }
+    });
+  }
+};
+
+const defineFilter = (arr) => {
+  const blogSelect = document.querySelector('.blog-select'),
+    blogSelect1 = document.querySelector('.blog__select'),
+    blogSelect2 = document.querySelectorAll('.blog__select')[1],
+    blogSelect3 = document.querySelectorAll('.blog__select')[2];
+
+  const selectFilter = () => {
+    if (event.target === blogSelect1) {
+      filter(arr, 'movies');
+    }
+    if (event.target === blogSelect2) {
+      filter(arr, 'status');
+    }
+    if (event.target === blogSelect3) {
+      filter(arr, 'gender');
     }
   };
 
@@ -98,11 +125,11 @@ const addElem = (arr) => {
   movies = [...new Set(movies)].sort();
 
   movies.forEach(item => {
-    select.insertAdjacentHTML('beforeend',
+    select1.insertAdjacentHTML('beforeend',
       `<option value="${item}">${item}</option>`);
   });
 
-  filter(arr);
+  defineFilter(arr);
 };
 
 const getArray = () => {
