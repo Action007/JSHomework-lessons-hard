@@ -1,7 +1,12 @@
 'use strict';
 
-const select1 = document.querySelector('.blog__select');
-const blogInner = document.querySelector('.blog__inner');
+const select1 = document.querySelector('.blog__select'),
+  blogInner = document.querySelector('.blog__inner'),
+  blogSelect = document.querySelector('.blog-select'),
+  blogSelect1 = document.querySelector('.blog__select'),
+  blogSelect2 = document.querySelectorAll('.blog__select')[1],
+  blogSelect3 = document.querySelectorAll('.blog__select')[2],
+  resetBtn = document.querySelector('.blog-select__reset');
 
 const addCard = (item) => {
   blogInner.insertAdjacentHTML('beforeend',
@@ -53,60 +58,85 @@ const addCard = (item) => {
 };
 
 const filter = (arr, select) => {
+  const select1 = blogSelect1.options[blogSelect1.selectedIndex].value,
+    select2 = blogSelect2.options[blogSelect2.selectedIndex].value,
+    select3 = blogSelect3.options[blogSelect3.selectedIndex].value,
+    target = event.target.options[event.target.selectedIndex].value;
+
   while (blogInner.firstChild) {
     blogInner.firstChild.remove();
   }
+
+
+  arr = arr.filter((item) => {
+      if (select1 !== '0') {
+        if (item.movies) {
+
+          return item.movies.find(x => x === select1);
+        }
+      } else {
+        return item;
+      }
+    })
+    .filter(item => select2 !== '0' ? item.status === select2 : item)
+    .filter(item => select3 !== '0' ? item.gender.toLowerCase() === select3 : item);
 
   arr.forEach(item => {
     if (select === 'movies') {
       if (item.movies) {
         item.movies.forEach(elem => {
-          if (elem === event.target.options[event.target.selectedIndex].value) {
+          if (elem === target) {
             addCard(item);
           }
         });
       }
     } else if (select === 'status') {
-      if (item.status === event.target.options[event.target.selectedIndex].value) {
+      if (item.status === target) {
         addCard(item);
       }
     } else if (select === 'gender') {
-      if (item.gender) {
-        if (item.gender.toLowerCase() === event.target.options[event.target.selectedIndex].value) {
-          addCard(item);
-        }
-      }
-    }
-  });
-
-  if (event.target.options[event.target.selectedIndex].value === '0') {
-    arr.forEach(item => {
-      if (item.movies) {
+      if (item.gender.toLowerCase() === target) {
         addCard(item);
       }
-    });
-  }
+    } else {
+      addCard(item);
+    }
+  });
 };
 
 const defineFilter = (arr) => {
-  const blogSelect = document.querySelector('.blog-select'),
-    blogSelect1 = document.querySelector('.blog__select'),
-    blogSelect2 = document.querySelectorAll('.blog__select')[1],
-    blogSelect3 = document.querySelectorAll('.blog__select')[2];
+  const select1 = blogSelect1.options[blogSelect1.selectedIndex].value,
+    select2 = blogSelect2.options[blogSelect2.selectedIndex].value,
+    select3 = blogSelect3.options[blogSelect3.selectedIndex].value;
 
   const selectFilter = () => {
-    if (event.target === blogSelect1) {
+    if (event.target === blogSelect1 && select1 !== '0') {
       filter(arr, 'movies');
-    }
-    if (event.target === blogSelect2) {
+    } else if (event.target === blogSelect2 && select2 !== '0') {
       filter(arr, 'status');
-    }
-    if (event.target === blogSelect3) {
+    } else if (event.target === blogSelect3 && select3 !== '0') {
       filter(arr, 'gender');
+    } else {
+      filter(arr);
     }
   };
 
+  const reset = () => {
+    while (blogInner.firstChild) {
+      blogInner.firstChild.remove();
+    }
+
+    blogSelect1.selectedIndex = 0;
+    blogSelect2.selectedIndex = 0;
+    blogSelect3.selectedIndex = 0;
+
+    arr.forEach(element => {
+      addCard(element);
+    });
+  };
+
   blogSelect.addEventListener('change', selectFilter);
+  resetBtn.addEventListener('click', reset);
 };
 
 const addElem = (arr) => {
@@ -117,7 +147,7 @@ const addElem = (arr) => {
 
     if (item.movies) {
       item.movies.forEach(elem => {
-        movies.push(elem);
+        movies.push(elem.trim());
       });
     }
   });
