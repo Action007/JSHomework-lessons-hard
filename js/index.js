@@ -109,25 +109,31 @@ class AppData {
     targetMonthValue.value = this.getTargetMonth();
     incomePeriodValue.value = this.calcSavedMoney();
 
-    localAppData.push(
-      budgetMonthValue.value,
-      budgetDayValue.value,
-      expensesMonthValue.value,
-      additionalExpensesValue.value,
-      additionalIncomeValue.value,
-      incomePeriodValue.value,
-      targetMonthValue.value
-    );
+    localAppData.push({
+      budgetMonth: budgetMonthValue.value
+    }, {
+      budgetDay: budgetDayValue.value
+    }, {
+      expensesMonth: expensesMonthValue.value
+    }, {
+      additionalExpenses: additionalExpensesValue.value
+    }, {
+      additionalIncome: additionalIncomeValue.value
+    }, {
+      incomePeriod: incomePeriodValue.value
+    }, {
+      targetMonth: targetMonthValue.value
+    });
 
     this.localStorage();
 
-    this.setCookie('budgetMonthValue', budgetMonthValue.value, 2021, 12, 1);
-    this.setCookie('budgetDayValue', budgetDayValue.value, 2021, 12, 1);
-    this.setCookie('expensesMonthValue', expensesMonthValue.value, 2021, 12, 1);
-    this.setCookie('additionalExpensesValue', additionalExpensesValue.value, 2021, 12, 1);
-    this.setCookie('additionalIncomeValue', additionalIncomeValue.value, 2021, 12, 1);
-    this.setCookie('targetMonthValue', targetMonthValue.value, 2021, 12, 1);
-    this.setCookie('incomePeriodValue', incomePeriodValue.value, 2021, 12, 1);
+    this.setCookie('budgetMonth', budgetMonthValue.value, 2021, 12, 1);
+    this.setCookie('budgetDay', budgetDayValue.value, 2021, 12, 1);
+    this.setCookie('expensesMonth', expensesMonthValue.value, 2021, 12, 1);
+    this.setCookie('additionalExpenses', additionalExpensesValue.value, 2021, 12, 1);
+    this.setCookie('additionalIncome', additionalIncomeValue.value, 2021, 12, 1);
+    this.setCookie('incomePeriod', incomePeriodValue.value, 2021, 12, 1);
+    this.setCookie('targetMonth', targetMonthValue.value, 2021, 12, 1);
 
   }
 
@@ -145,13 +151,36 @@ class AppData {
       start1.style.display = "none";
       cancel.style.display = "block";
 
-      resultTotal1.value = localAppData[0];
-      resultTotal2.value = localAppData[1];
-      resultTotal3.value = localAppData[2];
-      resultTotal4.value = localAppData[3];
-      resultTotal5.value = localAppData[4];
-      resultTotal6.value = localAppData[5];
-      resultTotal7.value = localAppData[6];
+      localAppData.forEach(item => {
+        if (item.budgetMonth) {
+          resultTotal1.value = item.budgetMonth;
+          if (item.budgetMonth !== this.getCookie('budgetMonth')) this.reset();
+        }
+        if (item.budgetDay) {
+          resultTotal2.value = item.budgetDay;
+          if (item.budgetDay !== this.getCookie('budgetDay')) this.reset();
+        }
+        if (item.expensesMonth) {
+          resultTotal3.value = item.expensesMonth;
+          if (item.expensesMonth !== this.getCookie('expensesMonth')) this.reset();
+        }
+        if (item.additionalExpenses) {
+          resultTotal4.value = item.additionalExpenses;
+          if (item.additionalExpenses !== this.getCookie('additionalExpenses')) this.reset();
+        }
+        if (item.additionalIncome) {
+          resultTotal5.value = item.additionalIncome;
+          if (item.additionalIncome !== this.getCookie('additionalIncome')) this.reset();
+        }
+        if (item.incomePeriod) {
+          resultTotal6.value = item.incomePeriod;
+          if (item.incomePeriod !== this.getCookie('incomePeriod')) this.reset();
+        }
+        if (item.targetMonth) {
+          resultTotal7.value = item.targetMonth;
+          if (item.targetMonth !== this.getCookie('targetMonth')) this.reset();
+        }
+      });
     }
   }
 
@@ -170,6 +199,16 @@ class AppData {
     cookieStr += secure ? '; secure' : '';
 
     document.cookie = cookieStr;
+  }
+
+
+  getCookie(sKey) {
+    if (!sKey) {
+      return '';
+    }
+    return decodeURIComponent(document.cookie
+      .replace(new RegExp("(?:(?:^|.*;)\\s*" + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, "\\$&") +
+        "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1")) || '';
   }
 
   addIncomeBlock() {
@@ -312,6 +351,14 @@ class AppData {
 
     localAppData = [];
     localStorage.removeItem('localAppData');
+
+    this.setCookie('budgetMonth', '', 2020, 12, 1);
+    this.setCookie('budgetDay', '', 2020, 12, 1);
+    this.setCookie('expensesMonth', '', 2020, 12, 1);
+    this.setCookie('additionalExpenses', '', 2020, 12, 1);
+    this.setCookie('additionalIncome', '', 2020, 12, 1);
+    this.setCookie('targetMonth', '', 2020, 12, 1);
+    this.setCookie('incomePeriod', '', 2020, 12, 1);
   }
 
   inputRange() {
